@@ -10,7 +10,6 @@
 # Install required plugins
 # Set gid=0 and make group perms==owner perms
 ################################################################################
-
 FROM centos:7 AS builder
 
 ENV PATH /usr/share/elasticsearch/bin:$PATH
@@ -25,8 +24,7 @@ RUN ln -sf /etc/pki/ca-trust/extracted/java/cacerts /opt/jdk-11.0.1/lib/security
 
 RUN yum install -y unzip which
 
-RUN groupadd -g 1000 elasticsearch && \
-    adduser -u 1000 -g 1000 -d /usr/share/elasticsearch elasticsearch
+RUN groupadd -g 1000 elasticsearch && adduser -u 1000 -g 1000 -d /usr/share/elasticsearch elasticsearch
 
 WORKDIR /usr/share/elasticsearch
 
@@ -44,7 +42,6 @@ COPY elasticsearch.yml log4j2.properties config/
 # Copy elasticsearch from stage 0
 # Add entrypoint
 ################################################################################
-
 FROM centos:7
 
 ENV ELASTIC_CONTAINER true
@@ -52,9 +49,7 @@ ENV JAVA_HOME /opt/jdk-11.0.1
 
 COPY --from=builder /opt/jdk-11.0.1 /opt/jdk-11.0.1
 
-RUN yum update -y && \
-    yum install -y nc unzip wget which && \
-    yum clean all
+RUN yum update -y && yum install -y nc unzip wget which && yum clean all
 
 RUN groupadd -g 1000 elasticsearch && \
     adduser -u 1000 -g 1000 -G 0 -d /usr/share/elasticsearch elasticsearch && \
