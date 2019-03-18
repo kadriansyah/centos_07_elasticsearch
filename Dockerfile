@@ -10,6 +10,7 @@
 # Install required plugins
 # Set gid=0 and make group perms==owner perms
 ################################################################################
+# image name: kadriansyah/centos_07_elasticsearch:v1
 FROM centos:7 AS builder
 
 ENV PATH /usr/share/elasticsearch/bin:$PATH
